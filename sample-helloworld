@@ -1,0 +1,33 @@
+pipeline {
+    agent {
+        docker {
+            image 'openjdk:11'
+        }
+    }
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main', url: ' https://github.com/ApunBharath/Jenkins-Zero-To-Hero.git'
+            }
+        }
+
+        stage('Compile Java Code') {
+            steps {
+                sh 'javac HelloWorld.java'
+            }
+        }
+
+        stage('Run Java Program') {
+            steps {
+                sh 'java HelloWorld'
+            }
+        }
+
+        stage('Archive Artifacts') {
+            steps {
+                archiveArtifacts artifacts: '**/*.class', fingerprint: true
+            }
+        }
+    }
+}
